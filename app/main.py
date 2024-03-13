@@ -3,8 +3,8 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from service import get_logs_from_wazuh
-from service import get_log_from_wazuh
+from app.service import get_logs_from_wazuh
+from app.service import get_log_from_wazuh
 
 host = os.environ.get("HOST")
 port = os.environ.get("PORT")
