@@ -1,11 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
 
-import schemas
-from service import get_logs_from_wazuh
-from service import get_log_from_wazuh
+from service import get_alerts_from_wazuh
+from service import get_alert_from_wazuh
 from config import host
 from config import port
 from config import origins
@@ -22,16 +20,16 @@ app.add_middleware(
 )
 
 
-@app.get("/logs", response_model=List[schemas.Alert])
-def get_logs():
-    logs = get_logs_from_wazuh()
-    return logs
+@app.get("/alerts")
+def get_alerts():
+    alerts = get_alerts_from_wazuh()
+    return alerts
 
 
-@app.get("/log")
-def get_log(log_id: str):
-    log = get_log_from_wazuh(log_id=log_id)
-    return log
+@app.get("/alerts/{alert_id}")
+def get_alert(alert_id: str):
+    alert = get_alert_from_wazuh(alert_id=alert_id)
+    return alert
 
 
 if __name__ == "__main__":
