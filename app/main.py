@@ -1,14 +1,14 @@
-import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.service import get_logs_from_wazuh
-from app.service import get_log_from_wazuh
+from service import get_alerts_from_wazuh
+from service import get_alert_from_wazuh
+from service import get_paged_alerts_from_wazuh
+from config import host
+from config import port
+from config import origins
 
-host = os.environ.get("HOST")
-port = os.environ.get("PORT")
-origins = [os.environ.get("ORIGIN")]
 
 app = FastAPI()
 
@@ -21,16 +21,22 @@ app.add_middleware(
 )
 
 
-@app.get("/logs")
-def get_logs():
-    logs = get_logs_from_wazuh()
-    return logs
+@app.get("/alerts")
+def get_alerts():
+    alerts = get_alerts_from_wazuh()
+    return alerts
 
 
-@app.get("/log")
-def get_log():
-    log = get_log_from_wazuh()
-    return log
+@app.get("/alerts/{page}")
+def get_paged_alerts(page: int, limit: int = 20):
+    alerts = get_paged_alerts_from_wazuh(page=page, limit=limit)
+    return alerts
+
+
+@app.get("/alert")
+def get_alert(alert_id: str):
+    alert = get_alert_from_wazuh(alert_id=alert_id)
+    return alert
 
 
 if __name__ == "__main__":
