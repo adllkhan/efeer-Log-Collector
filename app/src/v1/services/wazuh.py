@@ -1,32 +1,31 @@
-import json
 import os
+import json
+import math
 from typing import List
 
 
 class Wazuh:
-    def __init__(self, alerts_dir):
-        self.alerts_dir = alerts_dir
-    
-    def get_alerts_from_wazuh(self) -> List[dict]:
-        os.chdir(self.alerts_dir)
-        with open("alerts.json", "r") as alerts:
-            output = [json.loads(alert) for alert in alerts.readlines()]
-        return output
+    def __init__(self, events_dir):
+        self.events_dir = events_dir
 
-    def get_alert_from_wazuh(self, alert_id: str) -> dict:
-        alerts = self.get_alerts_from_wazuh()
-        for alert in alerts:
-            if alert["id"] == alert_id:
-                return alert
-
-    def get_paged_alerts_from_wazuh(self,
-                                    page: int,
-                                    limit: int = 20
-                                    ) -> List[dict]:
-        alerts = self.get_alerts_from_wazuh()
+    def events_from_wazuh(
+        self, page: int | None = 0, limit: int | None = None
+    ) -> List[dict]:
+        os.chdir(self.events_dir)
+        with open("alerts.json", "r") as file:
+            events = [json.loads(event) for event in file.readlines()]
+        if limit is None:
+            return events
         start = page * limit
         end = start + limit
-        pages = len(alerts) // limit
-        alerts = alerts[start:end]
-        alerts.insert(0, {"pages": pages})
-        return alerts
+        pages = len(events) / limit
+        pages = math.ceil(pages)
+        events = events[start:end]
+        events.insert(0, {"pages": pages})
+        return events
+
+    def event_from_wazuh(self, event_id: str) -> dict:
+        events = self.events_from_wazuh()
+        for event in events:
+            if event["id"] == event_id:
+                return event
