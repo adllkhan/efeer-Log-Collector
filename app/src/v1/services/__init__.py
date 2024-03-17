@@ -1,1 +1,1 @@
-from wazuh import Wazuh
+from .wazuh import Wazuh as WazuhService
