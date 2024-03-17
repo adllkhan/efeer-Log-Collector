@@ -9,7 +9,7 @@ class Wazuh:
         self.events_dir = events_dir
 
     def events_from_wazuh(
-        self, page: int | None = 0, limit: int | None = None
+        self, page: int | None = 0, limit: int | None = 10
     ) -> List[dict]:
         os.chdir(self.events_dir)
         with open("alerts.json", "r") as file:
