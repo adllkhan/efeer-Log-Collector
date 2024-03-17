@@ -1,5 +1,6 @@
 import json
 import os
+import math
 from typing import List
 
 
@@ -26,7 +27,8 @@ class Wazuh:
         alerts = self.get_alerts_from_wazuh()
         start = page * limit
         end = start + limit
-        pages = len(alerts) // limit
+        pages = len(alerts) / limit
+        pages = math.ceil(pages)
         alerts = alerts[start:end]
         alerts.insert(0, {"pages": pages})
         return alerts
