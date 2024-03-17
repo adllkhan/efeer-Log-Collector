@@ -10,7 +10,7 @@ wazuh = WazuhService(events_dir=WazuhConfig.events_dir)
 
 
 @router.get("/events")
-def get_events(page: int | None = 0, limit: int | None = 10):
+def get_events(page: int | None = 0, limit: int | None = None):
     events = wazuh.events_from_wazuh(page=page, limit=limit)
     return events
 
