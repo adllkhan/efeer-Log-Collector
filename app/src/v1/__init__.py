@@ -1,1 +1,1 @@
-from endpoints import wazuh_router
+from endpoints import router_wazuh
