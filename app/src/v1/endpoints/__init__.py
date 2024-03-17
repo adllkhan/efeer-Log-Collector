@@ -1,1 +1,1 @@
-from wazuh import router as wazuh_router
+from wazuh import router as router_wazuh
