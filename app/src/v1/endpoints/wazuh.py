@@ -6,22 +6,16 @@ from ..core import WazuhConfig
 
 router = APIRouter(prefix="/wazuh")
 
-wazuh = WazuhService(alerts_dir=WazuhConfig.alerts_dir)
+wazuh = WazuhService(events_dir=WazuhConfig.events_dir)
 
 
-@router.get("/alerts")
-def get_alerts():
-    alerts = wazuh.get_alerts_from_wazuh()
-    return alerts
+@router.get("/events")
+def get_events(page: int | None = 0, limit: int | None = None):
+    events = wazuh.events_from_wazuh(page=page, limit=limit)
+    return events
 
 
-@router.get("alerts/{page}")
-def get_paged_alerts(page: int, limit: int = 20):
-    alerts = wazuh.get_paged_alerts_from_wazuh(page=page, limit=limit)
-    return alerts
-
-
-@router.get("/alert")
-def get_alert(alert_id: str):
-    alert = wazuh.get_alert_from_wazuh(alert_id=alert_id)
-    return alert
+@router.get("/event")
+def get_event(event_id: str):
+    event = wazuh.get_alert_from_wazuh(event_id=event_id)
+    return event
