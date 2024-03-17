@@ -25,7 +25,7 @@ class Wazuh:
         return events
 
     def event_from_wazuh(self, event_id: str) -> dict:
-        events = self.events_from_wazuh()
+        events = self.events_from_wazuh(page=None, limit=None)
         for event in events:
             if event["id"] == event_id:
                 return event
