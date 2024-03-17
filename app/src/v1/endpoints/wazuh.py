@@ -1,12 +1,12 @@
 from fastapi import APIRouter
 
-from services import Wazuh
-from app.config import Wazuh as WazuhConfig
+from ..services import WazuhService
+from ..core import WazuhConfig
 
 
 router = APIRouter(prefix="/wazuh")
 
-wazuh = Wazuh(alerts_dir=WazuhConfig.alerts_dir)
+wazuh = WazuhService(alerts_dir=WazuhConfig.alerts_dir)
 
 
 @router.get("/alerts")

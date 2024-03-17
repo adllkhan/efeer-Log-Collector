@@ -1,9 +1,16 @@
-# Base Config
-host = "0.0.0.0"
-port = 8000
-origins = ["0.0.0.0"]
+import os
+import yaml
 
 
-# Wazuh Config
-class Wazuh:
-    alerts_dir = "/var/ossec/logs/alerts"
+dir = os.getcwd()
+with open(f"{dir}/app/settings.yaml", "rt") as file:
+    settings = yaml.safe_load(file.read())
+
+
+class Base:
+    host = settings["base"]["host"]
+    port = settings["base"]["port"]
+    origins = list(settings["base"]["origins"])
+    allow_credentials = bool(settings["base"]["allow_credentials"])
+    methods = list(settings["base"]["methods"])
+    headers = list(settings["base"]["headers"])
