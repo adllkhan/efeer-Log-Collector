@@ -9,7 +9,7 @@ class Wazuh:
         self.events_dir = events_dir
 
     def events_from_wazuh(
-        self, page: int | None = 0, limit: int | None = None
+        self, page: int | None = 0, limit: int | None = 10
     ) -> List[dict]:
         os.chdir(self.events_dir)
         with open("alerts.json", "r") as file:
@@ -25,7 +25,7 @@ class Wazuh:
         return events
 
     def event_from_wazuh(self, event_id: str) -> dict:
-        events = self.events_from_wazuh()
+        events = self.events_from_wazuh(page=None, limit=None)
         for event in events:
             if event["id"] == event_id:
                 return event
